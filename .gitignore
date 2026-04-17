@@ -1,0 +1,5 @@
+# VLSI / Verilator junk
+obj_dir/
+uvm-src/
+*.log
+*.vcd
