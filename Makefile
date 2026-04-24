@@ -1,4 +1,3 @@
-# Makefile for AXI4-Lite Slave UVM Verification with Verilator
 # Project: Design and UVM-based functional verification of AXI4-Lite Slave Interface
 
 # Paths
@@ -13,6 +12,7 @@ VERILATOR_FLAGS += -Wno-fatal -Wno-lint -Wno-style -Wno-SYMRSVDWORD -Wno-DECLFIL
 VERILATOR_FLAGS += -Wno-COVERIGN -Wno-CONSTRAINTIGN -Wno-TIMESCALEMOD
 VERILATOR_FLAGS += --trace
 VERILATOR_FLAGS += +incdir+$(UVM_SRC)
+VERILATOR_FLAGS += +incdir+tb +incdir+tests +incdir+rtl
 VERILATOR_FLAGS += +define+UVM_NO_DPI
 VERILATOR_FLAGS += +define+DATA_WIDTH=32
 VERILATOR_FLAGS += +define+ADDR_WIDTH=8
@@ -20,27 +20,27 @@ VERILATOR_FLAGS += $(UVM_SRC)/uvm_pkg.sv
 
 # Project Files (Ordered by dependency)
 SV_FILES = \
-	axi_test_pkg.sv \
-	transaction.sv \
-	command_monitor.sv \
-	result_monitor.sv \
-	coverage.sv \
-	scoreboard.sv \
-	driver.sv \
-	env.sv \
-	write_sequence.sv \
-	read_sequence.sv \
-	multi_write_sequence.sv \
-	multi_read_sequence.sv \
-	seq_write_sequence.sv \
-	seq_read_sequence.sv \
-	base_test.sv \
-	write_test.sv \
-	read_test.sv \
-	test_all.sv \
-	axi_lite_if.sv \
-	axi_lite_slave.sv \
-	top.sv
+	tb/axi_test_pkg.sv \
+	tb/transaction.sv \
+	tb/command_monitor.sv \
+	tb/result_monitor.sv \
+	tb/coverage.sv \
+	tb/scoreboard.sv \
+	tb/driver.sv \
+	tb/env.sv \
+	tests/write_sequence.sv \
+	tests/read_sequence.sv \
+	tests/multi_write_sequence.sv \
+	tests/multi_read_sequence.sv \
+	tests/seq_write_sequence.sv \
+	tests/seq_read_sequence.sv \
+	tests/base_test.sv \
+	tests/write_test.sv \
+	tests/read_test.sv \
+	tests/test_all.sv \
+	tb/axi_lite_if.sv \
+	rtl/axi_lite_slave.sv \
+	rtl/top.sv
 
 # Compilation Target
 TOP_MODULE = top
