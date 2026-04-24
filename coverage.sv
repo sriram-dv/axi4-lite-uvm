@@ -2,8 +2,6 @@ class coverage extends uvm_subscriber #(axi_transaction);
    `uvm_component_utils(coverage)
    axi_transaction cmd;
 
-   localparam int HISTORY_SIZE = 4;
-   op_code [HISTORY_SIZE-1:0] op_history;
    int prev_addr;
    int consecutive_count;
    
@@ -16,15 +14,18 @@ class coverage extends uvm_subscriber #(axi_transaction);
          bins write = {w_op};
          bins read  = {r_op};
          bins noop  = {no_op};
+         
+         // Replaced unsupported array history with native SV transition bins
+         bins write_to_read = (w_op => r_op);
+         bins read_to_write = (r_op => w_op);
+         bins consecutive_writes = (w_op => w_op);
+         bins consecutive_reads = (r_op => r_op);
       }
       
       coverpoint consecutive_count {
         bins consecutive_bins[] = {1,2,3,4,5};
       }
       
-      //Erroring not sure how to fix
-      //coverpoint op_history;
-    
       cross cmd.addr, cmd.data;
 
    endgroup
@@ -36,12 +37,8 @@ class coverage extends uvm_subscriber #(axi_transaction);
 
    function void write(axi_transaction t);
       cmd = t.get_copy();
-
-      for (int i=0; i<3; i++) begin
-          op_history[i] = op_history[i+1];
-      end
-      op_history[0] = cmd.op;
       
+      // Calculate consecutive identical address accesses
       if(prev_addr == cmd.addr) begin
         consecutive_count += 1;
       end else begin

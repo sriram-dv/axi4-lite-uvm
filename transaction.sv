@@ -3,20 +3,20 @@ import uvm_pkg::*;
 `include "uvm_macros.svh"
 
 class axi_transaction #(parameter DW = DATA_WIDTH, parameter AW = ADDR_WIDTH) extends uvm_sequence_item;
-    
-    // FIX: Parameterized classes MUST use the param_utils macro
     `uvm_object_param_utils(axi_transaction #(DW, AW))
 
     function new(string name = "");
         super.new(name);
     endfunction
     
-    localparam ADDR_SIZE = $clog2(AW);
     rand logic [DW-1:0]        data;
-    rand logic [ADDR_SIZE-1:0] addr;
-    rand op_code               op;
+    rand logic [AW-1:0]        addr; // FIX: Removed $clog2 bug
     
+    rand op_code               op;
     constraint op_con {op dist {no_op := 1, w_op := 9, r_op:=9, rst_op:=1};}
+    
+    // FIX: Address alignment constraint prevents unaligned AXI protocol violations
+    constraint addr_align { addr[1:0] == 2'b00; }
 
     function void random_write();
         if (!this.randomize()) begin
@@ -37,7 +37,7 @@ class axi_transaction #(parameter DW = DATA_WIDTH, parameter AW = ADDR_WIDTH) ex
     endfunction
 
     function void do_copy(uvm_object rhs);
-        axi_transaction #(DW, AW) RHS; // FIX: Add parameters to handle
+        axi_transaction #(DW, AW) RHS; 
         assert(rhs != null) else
             $fatal(1,"Tried to copy null transaction");
         super.do_copy(rhs);
@@ -49,7 +49,6 @@ class axi_transaction #(parameter DW = DATA_WIDTH, parameter AW = ADDR_WIDTH) ex
     endfunction
 
     function axi_transaction #(DW, AW) get_copy();
-        // FIX: Add parameters to the factory create call
         axi_transaction #(DW, AW) out = axi_transaction #(DW, AW)::type_id::create("out");
         out.data = data;
         out.addr = addr;
