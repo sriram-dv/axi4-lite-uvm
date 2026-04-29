@@ -1,0 +1,19 @@
+UVM_INFO test_all.sv(14) @ 0: uvm_test_top [RUN ALL TEST] WRITE STARTED
+COMMAND MONITOR: addr:0x2c data:0xacd6e456 op: w_op
+UVM_INFO result_monitor.sv(55) @ 70000: uvm_test_top.env_h.result_monitor_h [RES_MON] addr:0x0000002c data:0xacd6e456 op: w_op
+COMMAND MONITOR: addr:0x48 data:0x88a9ceb0 op: w_op
+--
+UVM_INFO test_all.sv(20) @ 15010000: uvm_test_top [RUN ALL TEST] READ STARTED
+COMMAND MONITOR: addr:0x80 data:0xa0d733c9 op: r_op
+UVM_INFO result_monitor.sv(55) @ 15070000: uvm_test_top.env_h.result_monitor_h [RES_MON] addr:0x00000080 data:0x23477657 op: r_op
+COMMAND MONITOR: addr:0x44 data:0xfc81cde0 op: r_op
+--
+UVM_INFO test_all.sv(38) @ 186010000: uvm_test_top [RUN ALL TEST] SEQ WRITE STARTED
+COMMAND MONITOR: addr:0x08 data:0x10b5c85d op: w_op
+UVM_INFO result_monitor.sv(55) @ 186070000: uvm_test_top.env_h.result_monitor_h [RES_MON] addr:0x00000008 data:0x10b5c85d op: w_op
+COMMAND MONITOR: addr:0x0c data:0x1a278880 op: w_op
+--
+UVM_INFO test_all.sv(44) @ 284830000: uvm_test_top [RUN ALL TEST] SEQ READ STARTED
+COMMAND MONITOR: addr:0x08 data:0xb25157af op: r_op
+UVM_INFO result_monitor.sv(55) @ 284890000: uvm_test_top.env_h.result_monitor_h [RES_MON] addr:0x00000008 data:0xa6120738 op: r_op
+COMMAND MONITOR: addr:0x0c data:0xea3ecd5b op: r_op

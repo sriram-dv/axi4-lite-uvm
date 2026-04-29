@@ -10,9 +10,14 @@ module top ();
     
     initial begin
         uvm_config_db #(virtual axi_lite_if)::set(null, "*", "axi_if", axi_if);
+
+        // GLOBALLY SUPPRESS FALSE-POSITIVE DPI NAMING WARNINGS USING THE OOP SINGLETON
+        uvm_root::get().set_report_id_action_hier("UVM/COMP/NAME", UVM_NO_ACTION);
+
         run_test();
-        end
-        initial begin
+    end
+    
+    initial begin
         $dumpfile("dump.vcd");
         $dumpvars(0, top);
     end

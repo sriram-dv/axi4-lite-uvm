@@ -14,7 +14,6 @@ class env extends uvm_env;
     endfunction
     
     function void build_phase(uvm_phase phase);
-        // Use UVM factory for sequencer, matching your typedef at the top of the file
         sequencer_h       = sequencer::type_id::create("sequencer_h", this); 
         
         driver_h          = driver::type_id::create("driver_h", this);

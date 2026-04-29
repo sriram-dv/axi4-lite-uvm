@@ -11,6 +11,7 @@ VERILATOR_FLAGS += --timescale 1ns/1ps
 VERILATOR_FLAGS += -Wno-fatal -Wno-lint -Wno-style -Wno-SYMRSVDWORD -Wno-DECLFILENAME
 VERILATOR_FLAGS += -Wno-COVERIGN -Wno-CONSTRAINTIGN -Wno-TIMESCALEMOD
 VERILATOR_FLAGS += --trace
+VERILATOR_FLAGS += --coverage
 VERILATOR_FLAGS += +incdir+$(UVM_SRC)
 VERILATOR_FLAGS += +incdir+tb +incdir+tests +incdir+rtl
 VERILATOR_FLAGS += +define+UVM_NO_DPI
@@ -55,8 +56,7 @@ compile: files.f
 		-o sim_vlt
 
 run: compile
-	./obj_dir/sim_vlt +UVM_TESTNAME=$(TEST_NAME)
-
+	./obj_dir/sim_vlt +UVM_TESTNAME=$(TEST_NAME) +uvm_set_action="*,UVM/COMP/NAME,UVM_WARNING,UVM_NO_ACTION"
 # Helper to create file list
 files.f:
 	@echo "Creating files.f..."
