@@ -67,5 +67,8 @@ clean:
 	rm -rf obj_dir
 	rm -f files.f
 	rm -f *.vcd
+	rm -rf logs
+	rm -f coverage.dat
+
 
 .PHONY: all compile run clean
