@@ -3,11 +3,9 @@ typedef class axi_transaction;
 
 interface axi_lite_if #(parameter ADDR_WIDTH=8, DATA_WIDTH=32);
     import axi_test_pkg::*;
-    
+
     logic                  clk;
     logic                  rst_n;
-    
-    // AXI SIGNALS
     logic                  AWVALID;
     logic                  AWREADY;
     logic [ADDR_WIDTH-1:0] AWADDR;
@@ -16,10 +14,11 @@ interface axi_lite_if #(parameter ADDR_WIDTH=8, DATA_WIDTH=32);
     logic                  WREADY;
     logic [DATA_WIDTH-1:0] WDATA;
     logic [3:0]            WSTRB;
-    
+
     logic                  BREADY;
     logic                  BVALID;
-    
+    logic [1:0]            BRESP;
+
     logic                  ARVALID;
     logic                  ARREADY;
     logic [ADDR_WIDTH-1:0] ARADDR;
@@ -27,20 +26,20 @@ interface axi_lite_if #(parameter ADDR_WIDTH=8, DATA_WIDTH=32);
     logic                  RVALID;
     logic                  RREADY;
     logic [DATA_WIDTH-1:0] RDATA;
-    
+    logic [1:0]            RRESP;
     // UVM communication
     command_monitor        command_monitor_h;
-    
+
     logic [DATA_WIDTH-1:0] dut_mem [(1<<ADDR_WIDTH)-1:0];
 
     modport Master (
-        input  AWREADY, WREADY, BVALID, ARREADY, RVALID, RDATA,
+        input  AWREADY, WREADY, BVALID, BRESP, ARREADY, RVALID, RDATA,RRESP,
         output AWVALID, AWADDR, WVALID, WDATA, WSTRB, BREADY, ARVALID, ARADDR, RREADY
     );
 
     modport Slave (
         input  clk, rst_n, AWVALID, AWADDR, WVALID, WDATA, WSTRB, BREADY, ARVALID, ARADDR, RREADY,
-        output AWREADY, WREADY, BVALID, ARREADY, RVALID, RDATA
+        output AWREADY, WREADY, BVALID, BRESP, ARREADY, RVALID, RDATA, RRESP
     );
 
     initial begin
